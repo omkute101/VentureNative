@@ -2,6 +2,7 @@ import type { Company, Decision, MarketMap, Milestone, PrototypeData, ResearchMe
 import { initialData } from '../data/seed';
 
 const storageKey = 'venture-native-prototype-v1';
+const retiredSampleResearchIds = new Set(['r1', 'r2', 'r3', 'r4', 'r5', 'r6']);
 
 const cloneInitial = (): PrototypeData => JSON.parse(JSON.stringify(initialData)) as PrototypeData;
 const mergeSeedRecords = <T extends { id: string }>(seed: T[], stored: T[] | undefined): T[] => {
@@ -24,12 +25,13 @@ export const prototypeStore = {
       const companies = mergeSeedRecords(seed.companies, storedCompanies);
       const companyIds = new Set(companies.map((company) => company.id));
       const storedDecisions = candidate.decisions?.filter((decision) => companyIds.has(decision.companyId));
+      const storedResearch = candidate.research.filter((memo) => !retiredSampleResearchIds.has(memo.id));
       return {
         ...seed,
         ...candidate,
         companies,
         decisions: mergeSeedRecords(seed.decisions, storedDecisions),
-        research: mergeSeedRecords(seed.research, candidate.research),
+        research: mergeSeedRecords(seed.research, storedResearch),
         markets: mergeSeedRecords(seed.markets, candidate.markets),
         tasks: mergeSeedRecords(seed.tasks, candidate.tasks),
         milestones: mergeSeedRecords(seed.milestones, candidate.milestones),

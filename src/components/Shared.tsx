@@ -52,15 +52,6 @@ export function StatusPill({ children, tone }: { children: ReactNode; tone?: str
 export function EmptyState({ title, body }: { title: string; body: string }) { return <div className="empty-state"><h3>{title}</h3><p>{body}</p></div>; }
 export function SectionHeading({ label, title, copy, action }: { label?: string; title: string; copy?: string; action?: ReactNode }) { return <div className="section-heading"><div>{label && <Eyebrow>{label}</Eyebrow>}<h2>{title}</h2>{copy && <p>{copy}</p>}</div>{action}</div>; }
 
-export function EmailCapture({ compact = false }: { compact?: boolean }) {
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const field = form.elements.namedItem('email') as HTMLInputElement;
-    const message = form.querySelector('[role="status"]') as HTMLElement;
-    if (!field.validity.valid) { message.textContent = 'Enter a valid email address to continue.'; return; }
-    message.textContent = 'Demo subscription confirmed locally — no email was sent.';
-    form.reset();
-  };
-  return <form className={classNames('email-capture', compact && 'compact')} onSubmit={submit} noValidate><label className="sr-only" htmlFor={compact ? 'footer-email' : 'newsletter-email'}>Email address</label><input id={compact ? 'footer-email' : 'newsletter-email'} name="email" type="email" placeholder="Email address" required /><TextButton type="submit">Subscribe</TextButton><p role="status" aria-live="polite" className="form-message" /></form>;
+export function ComingSoonNotice({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={classNames('coming-soon-notice', className)}><span>COMING SOON</span><p>{children}</p></div>;
 }

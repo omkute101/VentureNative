@@ -612,3 +612,192 @@ tbody tr:hover { background: #fafafa; }
 @media (prefers-reduced-motion: reduce) {
   .mobile-nav, .menu-button span { transition: none !important; }
 }
+
+/* Keep the company identity readable on narrow phones without splitting its name. */
+.company-identity > div { min-width: 0; }
+
+@media (max-width: 640px) {
+  .company-identity {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .company-identity .company-logo.large,
+  .company-identity .monogram.large {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+  }
+
+  .company-identity h1 {
+    font-size: clamp(34px, 10vw, 48px);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .company-identity p { margin-top: 8px; }
+
+  .company-identity .status-pill {
+    grid-column: 2;
+    justify-self: start;
+    margin: 2px 0 0 !important;
+  }
+}
+
+@media (max-width: 374px) {
+  .company-identity { grid-template-columns: 46px minmax(0, 1fr); gap: 10px; }
+
+  .company-identity .company-logo.large,
+  .company-identity .monogram.large {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .company-identity h1 { font-size: clamp(32px, 10vw, 38px); }
+}
+
+/* Markets use the available canvas while keeping their written analysis readable. */
+.markets-page,
+.market-detail-page {
+  width: min(calc(100% - (var(--gutter) * 2)), 1280px);
+  max-width: none;
+}
+
+.markets-page .public-page-header,
+.market-detail-page > h1,
+.market-detail-page .page-intro { max-width: 760px; }
+
+.market-list { max-width: none; }
+
+.market-list-item {
+  grid-template-columns: minmax(0, 1fr) 148px;
+  gap: clamp(20px, 3vw, 44px);
+  padding-block: clamp(22px, 2.5vw, 32px);
+}
+
+.market-list-item h2 { font-size: clamp(31px, 3.3vw, 46px); }
+.market-list-item p { max-width: 720px; margin-bottom: 0; font-size: 14px; }
+.market-list-item > div:last-child { min-width: 0; }
+
+.market-detail-page .map-thesis {
+  margin-block: 38px;
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.market-detail-page .map-diagram {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  margin-block: 32px;
+}
+
+.market-detail-page .map-column {
+  min-height: 172px;
+  padding: 18px;
+}
+
+.market-detail-page .map-column p {
+  min-height: 0;
+  margin: 9px 0 15px;
+}
+
+.market-detail-page .map-column a { padding: 8px 10px; }
+
+/* Honest launch states replace inactive forms and prototype sign-ups. */
+.coming-soon-notice {
+  display: inline-grid;
+  gap: 8px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+
+.coming-soon-notice > span {
+  color: rgba(25,25,25,.55);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  line-height: 1;
+}
+
+.coming-soon-notice p { margin: 0; color: rgba(25,25,25,.72); font-size: 12px; line-height: 1.5; }
+.inline-coming-soon { margin-top: 24px; }
+
+.newsletter-band .newsletter-coming-soon {
+  width: min(100%, 470px);
+  border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.07);
+  text-align: left;
+}
+
+.newsletter-band .coming-soon-notice > span { color: rgba(255,255,255,.56); }
+.newsletter-band .coming-soon-notice p { color: rgba(255,255,255,.82); }
+
+.newsletter-landing {
+  display: grid;
+  gap: 0;
+  max-width: 620px;
+  padding: clamp(26px, 4vw, 42px);
+}
+
+.newsletter-landing .eyebrow { color: rgba(255,255,255,.5); }
+.newsletter-landing h2 { color: #fff; font-size: clamp(32px, 4vw, 44px); }
+.newsletter-landing > p { max-width: 490px; margin: 16px 0 25px; color: rgba(255,255,255,.72); font-size: 14px; }
+.newsletter-landing .coming-soon-notice { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+.newsletter-landing .coming-soon-notice > span { color: rgba(255,255,255,.56); }
+.newsletter-landing .coming-soon-notice p { color: rgba(255,255,255,.82); }
+
+.submission-coming-soon {
+  max-width: 720px;
+  padding: clamp(26px, 4vw, 40px);
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+
+.submission-coming-soon h2 { font-size: clamp(32px, 4vw, 46px); }
+.submission-coming-soon > p { max-width: 600px; margin: 17px 0 25px; color: rgba(25,25,25,.7); font-size: 15px; }
+
+/* Footer: written social links, clear authorship, and a non-interactive newsletter state. */
+.footer-grid {
+  grid-template-columns: 1.15fr .7fr 1fr .95fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.footer-label { margin: 0 0 11px; color: rgba(255,255,255,.48) !important; font-size: 9px !important; font-weight: 600; letter-spacing: .12em; }
+.footer-identity { display: grid; gap: 24px; }
+.footer-social-links { display: flex; flex-wrap: wrap; gap: 8px 15px; }
+.footer-social-links a { min-height: 44px; color: rgba(255,255,255,.78); font-size: 12px; line-height: 44px; transition: color .2s var(--ease-out); }
+.footer-social-links a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.footer-newsletter > p:last-child { margin: 0; line-height: 1.55; }
+.footer-coming-soon { margin: 0 0 8px !important; color: #fff !important; font-family: "P22 Mackinac W01 Book", Georgia, serif; font-size: 20px !important; line-height: 1.1 !important; }
+.footer-bottom { grid-template-columns: minmax(0, 1fr) minmax(220px, 410px); gap: 28px; }
+.footer-bottom p:last-child { grid-column: auto; }
+
+@media (max-width: 1024px) {
+  .footer-grid { grid-template-columns: 1.25fr 1fr; gap: 34px 48px; }
+}
+
+@media (max-width: 800px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+@media (max-width: 640px) {
+  .markets-page,
+  .market-detail-page { width: min(calc(100% - (var(--gutter) * 2)), 1280px); }
+
+  .market-list-item { grid-template-columns: 1fr; gap: 15px; padding-block: 21px; }
+  .market-list-item h2 { font-size: clamp(30px, 9vw, 39px); }
+  .market-list-item p { font-size: 15px; }
+  .market-list-item > div:last-child { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .market-list-item b { margin: 0 0 0 auto; }
+  .market-detail-page .map-thesis { margin-block: 28px; padding: 21px 18px; }
+  .market-detail-page .map-column { min-height: 0; padding: 17px; }
+  .newsletter-landing, .submission-coming-soon { padding: 24px 20px; }
+  .newsletter-landing > p, .submission-coming-soon > p { font-size: 16px; }
+  .coming-soon-notice { width: 100%; }
+  .footer-bottom { grid-template-columns: 1fr; gap: 12px; }
+  .footer-bottom p:last-child { justify-self: start; text-align: left; }
+}

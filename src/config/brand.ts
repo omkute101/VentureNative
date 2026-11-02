@@ -7,7 +7,7 @@ export const brand = {
     om: {
       instagram: 'https://instagram.com/theomkute',
       linkedin: 'https://www.linkedin.com/in/om-kute-348813215',
-      x: 'https://x.com/thomkute',
+      x: 'https://x.com/theomkute',
       substack: 'https://substack.com/@theomkute'
     },
     ventureNative: { instagram: 'https://instagram.com/venture.native' }

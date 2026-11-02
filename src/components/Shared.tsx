@@ -1,12 +1,46 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import { brand } from '../config/brand';
 import { classNames } from '../lib/format';
 
-export function PageMeta({ title, description }: { title: string; description?: string }) {
-  document.title = `${title} — Venture Native`;
-  const meta = document.querySelector('meta[name="description"]');
-  if (meta && description) meta.setAttribute('content', description);
+type StructuredData = Record<string, unknown>;
+
+const setMeta = (attribute: 'name' | 'property', key: string, content: string) => {
+  let meta = document.querySelector(`meta[${attribute}="${key}"]`) as HTMLMetaElement | null;
+  if (!meta) { meta = document.createElement('meta'); meta.setAttribute(attribute, key); document.head.append(meta); }
+  meta.content = content;
+};
+const removeMeta = (attribute: 'name' | 'property', key: string) => document.querySelector(`meta[${attribute}="${key}"]`)?.remove();
+
+export function PageMeta({ title, description = brand.description, noIndex = false, type = 'website', publishedTime, modifiedTime, schema }: { title: string; description?: string; noIndex?: boolean; type?: 'website' | 'article'; publishedTime?: string; modifiedTime?: string; schema?: StructuredData | StructuredData[] }) {
+  const fullTitle = `${title} — Venture Native`;
+  const canonicalUrl = new URL(window.location.pathname, brand.siteUrl).toString();
+  document.title = fullTitle;
+  setMeta('name', 'description', description);
+  setMeta('name', 'author', brand.founder);
+  setMeta('name', 'robots', noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+  setMeta('property', 'og:type', type);
+  setMeta('property', 'og:site_name', brand.name);
+  setMeta('property', 'og:title', fullTitle);
+  setMeta('property', 'og:description', description);
+  setMeta('property', 'og:url', canonicalUrl);
+  if (publishedTime) setMeta('property', 'article:published_time', publishedTime); else removeMeta('property', 'article:published_time');
+  if (modifiedTime) setMeta('property', 'article:modified_time', modifiedTime); else removeMeta('property', 'article:modified_time');
+  setMeta('name', 'twitter:card', 'summary');
+  setMeta('name', 'twitter:title', fullTitle);
+  setMeta('name', 'twitter:description', description);
+  let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+  if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.append(canonical); }
+  canonical.href = canonicalUrl;
+  const globalSchema: StructuredData[] = [
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: brand.name, url: brand.siteUrl, description: brand.description, publisher: { '@type': 'Organization', name: brand.name } },
+    { '@context': 'https://schema.org', '@type': 'Organization', name: brand.name, url: brand.siteUrl, founder: { '@type': 'Person', name: brand.founder } }
+  ];
+  const pageSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+  let structuredData = document.getElementById('venture-native-structured-data') as HTMLScriptElement | null;
+  if (!structuredData) { structuredData = document.createElement('script'); structuredData.id = 'venture-native-structured-data'; structuredData.type = 'application/ld+json'; document.head.append(structuredData); }
+  structuredData.textContent = JSON.stringify([...globalSchema, ...pageSchema]);
   return null;
 }
 
